@@ -1,24 +1,45 @@
+#pragma once
+
 #include <set>
-#include <stdexcept>
+#include <functional>
+
+#include "productset.h"
+#include "checks.h"
 
 template <class T>
 class BinaryOperation {
   public:
-    BinaryOperation(std::set<T> elements);
-    std::set<T> get_elements();
+    BinaryOperation(std::set<T> elements, 
+                    std::function<T(T, T)> op);
+    ProductSet<T> domain();
+    std::set<T> codomain();
+    T apply(T x, T y);
   private:
-    std::set<T> elements_;
+    ProductSet<T> domain_;
+    std::set<T> codomain_;
+    std::function<T(T, T)> op_;
 };
 
 template <class T>
-BinaryOperation<T>::BinaryOperation(std::set<T> elements) {
-  if (elements.empty())
-    throw std::invalid_argument("elements should not be empty");  
-
-  elements_ = elements;
+BinaryOperation<T>::BinaryOperation(std::set<T> elements,
+                                    std::function<T(T, T)> op)
+                                    : domain_(elements), 
+                                      codomain_(elements),    
+                                      op_(op) {
+  checks::check_valid_bin_op(domain_, codomain_, op_);
 }
 
 template <class T> 
-std::set<T> BinaryOperation<T>::get_elements() {
-  return elements_;
-} 
+ProductSet<T> BinaryOperation<T>::domain() {
+  return domain_;
+}
+
+template <class T>
+std::set<T> BinaryOperation<T>::codomain() {
+  return codomain_;
+}
+
+template <class T>
+T BinaryOperation<T>::apply(T x, T y) {
+  return op_(x, y);
+}
