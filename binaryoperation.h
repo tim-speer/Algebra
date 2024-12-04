@@ -48,33 +48,6 @@ T BinaryOperation<T>::apply(T x, T y) {
 }
 
 template <class T>
-bool BinaryOperation<T>::has_identity() {
-  if (has_identity_ == "unknown") {
-    for (T pot_id : codomain_) {
-      bool is_identity = true;
-      for (T element : codomain_) {
-        if (apply(pot_id, element) != element ||
-            apply(element, pot_id) != element) {
-          is_identity = false;
-          break;
-        }
-      }
-
-      if (is_identity) {
-        has_identity_ = "true";
-        return true; 
-      }
-    }
-
-    has_identity_ = "false";
-   
-  } else if (has_identity_ == "true") {
-    return true;
-  }
-  return false;  
-}
-
-template <class T>
 void check_valid_bin_op(ProductSet<T> domain, 
                         std::set<T> codomain, 
                         std::function<T(T, T)> op) {
