@@ -17,3 +17,9 @@ ProductSet<T>::ProductSet(std::set<T> elements) {
     }
   }  
 }
+
+template <class T>
+void check_empty(std::set<T> elements) {
+  if (elements.empty())
+    throw std::invalid_argument("elements can't be empty");    
+}
