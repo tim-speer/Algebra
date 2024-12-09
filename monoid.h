@@ -7,6 +7,8 @@ template <class T>
 class Monoid {
   public:
     Monoid(std::set<T> elements, BinaryOperation<T> op);
+    std::set<T> elements();
+    BinaryOperation<T> op();
     T identity();
   private:
     std::set<T> elements_;
@@ -18,6 +20,16 @@ template <class T>
 Monoid<T>::Monoid(std::set<T> elements, BinaryOperation<T> op)
                   : elements_(elements), op_(op) {
   identity_ = check_valid_monoid(elements, op);
+}
+
+template <class T>
+std::set<T> Monoid<T>::elements() {
+  return elements_;
+}
+
+template <class T>
+BinaryOperation<T> Monoid<T>::op() {
+  return op_;
 }
 
 template <class T>
