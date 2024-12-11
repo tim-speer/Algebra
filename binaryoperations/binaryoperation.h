@@ -13,13 +13,13 @@ class BinaryOperation {
                     std::function<T(T, T)> op);
     ProductSet<T> domain();
     std::set<T> codomain();
+    std::function<T(T, T)> func();
     T apply(T x, T y);
-    bool has_identity();
+    bool operator==(const BinaryOperation<T> & bin_op) const;
   private:
     ProductSet<T> domain_;
     std::set<T> codomain_;
-    std::function<T(T, T)> op_;
-    std::string has_identity_;
+    std::function<T(T, T)> func_;
 };
 
 template <class T>
@@ -27,9 +27,25 @@ BinaryOperation<T>::BinaryOperation(std::set<T> elements,
                                     std::function<T(T, T)> op)
                                     : domain_(elements), 
                                       codomain_(elements),    
-                                      op_(op),
-                                      has_identity_("unknown") {
-  check_valid_bin_op(domain_, codomain_, op_);
+                                      func_(op) {
+  check_valid_bin_op(domain_, codomain_, func_);
+}
+
+template <class T>
+bool BinaryOperation<T>::operator==(const BinaryOperation<T> & bin_op) const {
+  if (codomain_ == bin_op.codomain_) {
+    for (auto element : domain_) {
+      if (func_(element.first, element.second) != 
+          bin_op.func_(element.first, element.second))
+        return false;
+    }
+
+    return true;
+
+  }
+
+  return false;
+
 }
 
 template <class T> 
@@ -43,8 +59,13 @@ std::set<T> BinaryOperation<T>::codomain() {
 }
 
 template <class T>
+std::function<T(T, T)> BinaryOperation<T>::func() {
+  return func_;
+}
+
+template <class T>
 T BinaryOperation<T>::apply(T x, T y) {
-  return op_(x, y);
+  return func_(x, y);
 }
 
 template <class T>
