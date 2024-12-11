@@ -12,3 +12,5 @@ class OpMod : public BinaryOperation<int> {
     int modulus_;
     char op_type_;
 };
+
+std::set<int> make_elements(int n);

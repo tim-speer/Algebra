@@ -1,7 +1,7 @@
 #pragma once
 
 #include <set>
-#include "binaryoperations/binaryoperation.h"
+#include "../binaryoperations/binaryoperation.h"
 
 template <class T>
 class Monoid {

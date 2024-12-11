@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-#include "monoid.h"
+#include "../monoids/monoid.h"
 
 template <class T>
 class Group : public Monoid<T> {
