@@ -4,7 +4,7 @@
 #include <functional>
 #include <string>
 
-#include "productset.h"
+#include "../productset.h"
 
 template <class T>
 class BinaryOperation {
