@@ -10,6 +10,7 @@ class Monoid {
     std::set<T> elements();
     BinaryOperation<T> op();
     T identity();
+    bool operator==(const Monoid<T> & monoid) const;
   private:
     std::set<T> elements_;
     BinaryOperation<T> op_;
@@ -20,6 +21,15 @@ template <class T>
 Monoid<T>::Monoid(std::set<T> elements, BinaryOperation<T> op)
                   : elements_(elements), op_(op) {
   identity_ = check_valid_monoid(elements, op);
+}
+
+template <class T>
+bool Monoid<T>::operator==(const Monoid<T> & monoid) const {
+  if (elements_ == monoid.elements_ && 
+      op_ == monoid.op_)
+    return true;
+
+  return false;
 }
 
 template <class T>
