@@ -19,7 +19,6 @@ void check_valid_monoid_homomorphism(Monoid<T> dom_monoid,
                                      func(element.second));
     S right = func(dom_monoid.op().apply(element.first,
                                          element.second));
-    std::cout << left << " = " << right << std::endl;
     if (!(left == right))
       throw std::invalid_argument("multiplicative property of monoid "
                                   "homomorphism is not satisfied");
@@ -27,7 +26,7 @@ void check_valid_monoid_homomorphism(Monoid<T> dom_monoid,
 }
 
 template <class T, class S>
-class MonoidHomomorphism : Function<T, S> {
+class MonoidHomomorphism : public Function<T, S> {
   public:
     MonoidHomomorphism(Monoid<T> dom_monoid, 
                        Monoid<S> codom_monoid,

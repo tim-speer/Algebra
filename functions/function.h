@@ -20,6 +20,9 @@ class Function {
     Function(std::set<T> domain, 
              std::set<S> codomain, 
              std::function<S(T)>);
+    bool injective();
+    bool surjective();
+    bool bijective();
     std::set<T> domain();
     std::set<S> codomain();
     std::function<S(T)> func();
@@ -38,6 +41,46 @@ Function<T, S>::Function(std::set<T> domain,
   domain_ = domain;
   codomain_ = codomain;
   func_ = func;
+}
+
+template <class T, class S>
+bool Function<T, S>::injective() {
+  for (T x : domain_) {
+    for (T y : domain_) {
+      if (x != y && func_(x) == func_(y))
+        return false;
+    }
+  }
+
+  return true;
+
+}
+
+template <class T, class S>
+bool Function<T, S>::surjective() {
+  for (S y : codomain_) {
+    bool found_preimage = false;
+    for (T x : domain_) {
+      if (func_(x) == y) {
+        found_preimage = true;
+        break;
+      }
+    }
+
+    if (!found_preimage)
+      return false;
+  }
+
+  return true;  
+
+}
+
+template <class T, class S>
+bool Function<T, S>::bijective() {
+  if (injective() && surjective())
+    return true;
+
+  return false;
 }
 
 template <class T, class S>
