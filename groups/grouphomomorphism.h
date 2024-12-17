@@ -1,14 +1,17 @@
 #pragma once
 
+#include <map>
+
 #include "../monoids/monoidhomomorphism.h"
 #include "group.h"
+
 
 template <class T, class S>
 class GroupHomomorphism : public MonoidHomomorphism<T, S> {
   public:
     GroupHomomorphism(Group<T> dom_group,
                       Group<S> codom_group,
-                      std::function<S(T)> func);
+                      std::map<T, S> eval);
     Group<T> domain();
     Group<S> codomain();
   private:
@@ -19,10 +22,10 @@ class GroupHomomorphism : public MonoidHomomorphism<T, S> {
 template <class T, class S>
 GroupHomomorphism<T, S>::GroupHomomorphism(Group<T> dom_group,
                                            Group<S> codom_group,
-                                           std::function<S(T)> func)
+                                           std::map<T, S> eval)
                         : MonoidHomomorphism<T, S>(dom_group, 
                                              codom_group,
-                                             func),
+                                             eval),
                           domain_(dom_group), 
                           codomain_(codom_group) {
 
